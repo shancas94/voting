@@ -102,3 +102,18 @@ def stv(preferences, tie_break) -> int:
     # Apply tie-breaking
     return tie_breaking(preferences, candidates, tie_break)
 
+def tie_breaking(preferences, candidates, tie_break) -> int:
+    if tie_break not in preferences.voters():
+        raise ValueError("Invalid tie-breaking agent")
+
+    best_candidate = None
+    best_rank = float('inf')
+
+    for candidate in candidates:
+        rank = preferences.get_preference(candidate, tie_break)
+        if rank < best_rank:
+            best_rank = rank
+            best_candidate = candidate
+
+    return best_candidate
+
